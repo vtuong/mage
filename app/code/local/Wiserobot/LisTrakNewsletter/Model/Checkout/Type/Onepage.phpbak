@@ -1,0 +1,107 @@
+<?php
+
+class Wiserobot_LisTrakNewsletter_Model_Checkout_Type_Onepage extends Mage_Checkout_Model_Type_Onepage {
+
+    public function saveBilling($data, $customerAddressId) {
+
+	    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    	$api=Mage::getModel('listraknewsletter/api');
+    	$billingAddress = $this->getQuote()->getBillingAddress();
+    	$store=Mage::app()->getStore();
+		$attributes=json_decode(Mage::getStoreConfig('listraknewsletter/mapping_attributes/mapping_attributes'));//,$store);
+    	
+		if (isset($data['is_subscribed']) && !empty($data['is_subscribed'])) {
+	    	$param=array();
+	    	if ($customer->getId()) { 
+	    		$api->subscribeEmail($customer->getEmail(),$store->getStoreId());
+	        }else{ 
+	        	$api->subscribeEmail($data['email'],Mage::app()->getStore()->getStoreId()); 
+	        }
+	        foreach ($attributes->mage as $k => $v) {
+        		switch ($attributes->mage[$k]) {
+        			case "First Name":
+        				if ($customer->getId()) { 
+        					$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$customer->getFirstname());
+	        			}else{ 
+	        				$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$data['firstname']);
+	        			}        				
+        				break;
+        			case "Last Name":
+        				if ($customer->getId()) { 
+        					$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$customer->getLastname());
+	        			}else{ 
+	        				$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$data['lastname']);
+	        			}        				
+        				break;
+        			case "Male":
+        				//$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>);
+        				break;
+        			case "Female":
+        				//$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>);
+        				break;
+        			case "Telephone":
+        				$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$data['telephone']);
+        				break;
+        			case "Country":
+        				$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$billingAddress->getCountry());
+        				break;
+        			case "Region":
+        				$param[]=array('AttributeID'=>$attributes->list[$k],'Value'=>$billingAddress->getRegion());
+        				break;
+        		}
+        	}
+        	if ($customer->getId()) { 
+        		$lisTrak=Mage::getModel('listraknewsletter/api')->setContact($customer->getEmail(), $param, Mage::app()->getStore()->getStoreId());
+	        }else{ 
+	        	$lisTrak=Mage::getModel('listraknewsletter/api')->setContact($data['email'], $param, Mage::app()->getStore()->getStoreId());
+	        }
+	  //       echo "<pre>";
+			// print_r($attributes);
+			// echo "param=";
+			// print_r($param);
+			// echo "</pre>";
+
+	        /*
+	        if ($customer->getId()) {	
+	        	echo 'customer->getId()=true';        	
+	        	$api->subscribeEmail($customer->getEmail(),$store->getStoreId());
+	   			 $listrackdata=array(
+					'First Name'=>$customer->getFirstname(),
+					'Last Name'=>$customer->getLastname(),
+					'Phone'=>$data['telephone'],
+					'Country'=>$billingAddress->getCountry(),
+					'Region'=>$billingAddress->getRegion(),
+					'Checkout'=>true,
+					'Checkout Sign Up'=>true,
+				);
+	        	echo "<pre>param=";
+				print_r($param);
+				echo "</pre>";
+				//$lisTrak=Mage::getModel('listraknewsletter/api')->setContact($customer->getEmail(),$listrackdata,Mage::app()->getStore()->getStoreId());
+	        }else {
+	        	echo 'customer->getId()=false';
+	        	$api->subscribeEmail($data['email'],Mage::app()->getStore()->getStoreId());
+	        	$listrackdata=array(
+					'First Name'=>$data['firstname'],
+					'Last Name'=>$data['lastname'],
+					'Phone Number'=>$data['telephone'],
+					'Country'=>$billingAddress->getCountry(),
+					'Region'=>$billingAddress->getRegion(),
+					'Checkout'=>true,
+					'Checkout Sign Up'=>true,
+				);
+				//$lisTrak=Mage::getModel('listraknewsletter/api')->setContact($data['email'],$listrackdata,Mage::app()->getStore()->getStoreId());
+	        }
+	        */	        
+	    }/* else{
+	    	if ($customer->getId()){
+            	Mage::getModel('mailchimpnewsletter/mailchimpnewsletter')->unsubscribe($customer->getEmail());
+	        }else {
+	        	Mage::getModel('mailchimpnewsletter/mailchimpnewsletter')->unsubscribe($data['email']);
+	        }
+	    }
+	    */
+
+        return parent::saveBilling($data, $customerAddressId);
+    }
+}

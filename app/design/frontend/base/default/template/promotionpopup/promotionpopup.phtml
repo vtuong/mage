@@ -1,0 +1,167 @@
+<?php
+Mage::log($_GET,null,'promotionpopup.log');
+$banners=json_decode(Mage::getStoreConfig('promotionpopup/settings/banners'));
+$_banners=array();
+for($i=0; $i<count($banners)/9;$i++){
+$_bn=array();
+  for($j=0; $j<9;$j++){
+    if(isset($banners[$i*9+$j]))
+      $_bn[]=$banners[$i*9+$j];
+  }
+  $_banners[]=$_bn;
+}
+$hasbanner=false;
+$utm_medium='';
+if(isset($_GET['utm_medium'])) $utm_medium=$_GET['utm_medium'];
+$utm_term='';
+if(isset($_GET['utm_term'])) $utm_term=$_GET['utm_term'];
+$utm_campaign='';
+if(isset($_GET['utm_campaign'])) $utm_campaign=$_GET['utm_campaign'];
+$utm_source='';
+if(isset($_GET['utm_source'])) $utm_source=$_GET['utm_source'];
+$test=true;
+if($utm_medium!='')
+  $data['utm_medium']=$utm_medium;
+if($utm_term!='')
+  $data['utm_term']=$utm_term;
+if($utm_campaign!='')
+  $data['utm_campaign']=$utm_campaign;
+if($utm_source!='')
+  $data['utm_source']=$utm_source;
+$check=Mage::getSingleton('core/session')->getSessionArray();
+if(isset($data)){
+  if($check==null)
+    $check = array(0=>$data);
+  else
+    {
+      foreach ($check as $key => $value) {
+          if(count(array_diff($data, $value))==0)
+              $test=false;
+      }
+      if($test==true)
+        $check[count($check)]=$data;
+    }
+  Mage::getSingleton('core/session')->setSessionArray($check);
+}
+if($test==true){
+foreach($_banners as $banner){
+  if(!isset($banner[8])) continue;
+  if(!$banner[8] ) continue;
+$checked=true;
+$pattern = '/^'.$banner[1].'$/';
+if(isset($utm_medium) && $utm_medium==$banner[1] || $banner[1]=='*' || preg_match($pattern, $utm_medium, $matches, PREG_OFFSET_CAPTURE)){
+  $checked=$checked&&true;
+}else {
+  $checked=$checked&&false;
+}
+
+$pattern = '/^'.$banner[2].'$/';
+if(isset($utm_campaign) && $utm_campaign==$banner[2] || $banner[2]=='*' || preg_match($pattern, $utm_campaign, $matches, PREG_OFFSET_CAPTURE)){
+  $checked=$checked&&true;
+}else {
+  $checked=$checked&&false;
+}
+
+$pattern = '/^'.$banner[3].'$/';
+if(isset($utm_term) && $utm_term==$banner[3] || $banner[3]=='*' || preg_match($pattern, $utm_term, $matches, PREG_OFFSET_CAPTURE)){
+  $checked=$checked&&true;
+}else {
+  $checked=$checked&&false;
+}
+$pattern = '/^'.$banner[4].'$/';
+
+if(isset($utm_source) && $utm_source==$banner[4] || $banner[4]=='*' || preg_match($pattern, $utm_source, $matches, PREG_OFFSET_CAPTURE)){
+  $checked=$checked&&true;
+}else {
+  $checked=$checked&&false;
+}
+if($checked){
+  $image=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'banner/'.$banner[5];
+    echo "<a id=\"single_image\" style=\"display:none\" href=\"#image_data\"></a>";
+  $href=$banner[7]?"href=\"{$banner[7]}\"":"";
+    echo "<div  style=\"display:none\" ><a id=\"image_data\" $href><img src=\"{$image}\"/></a></div>";
+    
+    /*mobile*/
+    if($banner[6])
+      $imageMobile=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'banner/'.$banner[6];
+    else
+      $imageMobile=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'banner/'.$banner[5];
+        echo "<a id=\"single_image_mobile\" style=\"display:none\" href=\"#image_data_mobile\"></a>";
+        echo "<div  style=\"display:none\" ><a id=\"image_data_mobile\" $href><img src=\"{$imageMobile}\"/></a></div>";  
+    /*mobile*/
+  $hasbanner=true;
+}
+
+}}
+
+$controllerName=$this->getRequest()->getControllerName();
+
+$actionName= $this->getRequest()->getActionName();
+
+$moduleName=$this->getRequest()->getModuleName();
+if(!($controllerName =='product' && $actionName=='view' && $moduleName =='catalog')):
+?>
+
+  <?php endif;?>
+
+  <?php if($hasbanner):?>
+
+<script>
+    jQuery(document).ready(function(){
+      var t=setTimeout("show_youtube_popin()",1000);
+    });
+    jQuery(window).resize(function() {
+      resize_popin_mobile();
+    })
+    function resize_popin_mobile(){
+      if(jQuery(window).width()<600){
+        jQuery('#fancybox-content #image_data_mobile').parent().parent().parent().parent().css('left',20);
+        jQuery('#fancybox-content #image_data_mobile').parent().parent().parent().parent().width(jQuery(window).width()-80);
+        jQuery('#fancybox-content #image_data_mobile').parent().parent().width(jQuery(window).width()-100);
+      }
+    }
+    function show_youtube_popin(){      
+      if(jQuery(window).width()>=600){
+        
+        jQuery('#single_image').fancybox();
+        jQuery('#single_image').trigger('click');
+        var url_img = jQuery('#image_data img').attr('src');
+        dataLayer.push({
+          'ecommerce': {
+            'promoView': {
+              'promotions': [
+                {
+                  'id': url_img,
+                  'name': '',
+                  'creative': ' ',
+                  'position': 'promotions 1'
+                }
+              ]
+            }
+          }
+        });
+      }
+      else{
+        jQuery('#single_image_mobile').fancybox();
+        jQuery('#single_image_mobile').trigger('click');
+        var url_img_m = jQuery('#image_data_mobile img').attr('src');
+        dataLayer.push({
+          'ecommerce': {
+            'promoView': {
+              'promotions': [
+                {
+                  'id': url_img_m,
+                  'name': ' ',
+                  'creative': ' ',
+                  'position': 'promotions 1'
+                }
+              ]
+            }
+          }
+        });
+      }
+    }
+
+</script>
+
+<?php endif;?>

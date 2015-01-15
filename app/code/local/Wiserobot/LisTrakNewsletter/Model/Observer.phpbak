@@ -1,0 +1,102 @@
+<?php
+class Wiserobot_LisTrakNewsletter_Model_Observer extends Mage_Core_Block_Abstract
+{
+	public function subscribeCustomer($observer)
+	{
+		$customer = $observer->getEvent()->getCustomer();
+
+		if (($customer instanceof Mage_Customer_Model_Customer))
+		{
+			Mage::log('Orig Data');
+			Mage::log($customer->getOrigData());
+			Mage::log('Data');
+			Mage::log($customer->getData());
+			$subscriber=Mage::getModel('newsletter/subscriber');
+			$subscriber->loadByEmail($customer->getEmail());
+			if ($customer->getIsSubscribed())
+			{
+				$api=Mage::getModel('listraknewsletter/api')->subscribeEmail($customer->getEmail(),Mage::app()->getStore()->getStoreId());
+			}
+			else//if (($customer->getIsSubscribed()==false) && $subscriber->isSubscribed())
+			{
+				$api=Mage::getModel('listraknewsletter/api')->unsubscribeEmail($customer->getEmail());
+			}
+			/*
+      else{
+          Mage::log('Don\'t send');
+          Mage::log($customer->getIsSubscribed());
+          Mage::log($subscriber->isSubscribed());
+      }
+      */
+		}
+		//exit;
+		return $this;
+	}
+
+	public function setCustomerIsSubscribed($observer)
+	{
+    $quote = $observer->getEvent()->getQuote();
+    $customer = $quote->getCustomer();
+    $billaddress=$quote->getBillingAddress();
+    $issubscribe=$billaddress->getIsSubscribed();
+    if($issubscribe){
+
+
+				$mailchimp=Mage::getModel('mailchimpnewsletter/mailchimpnewsletter')->subscribe($billaddress->getEmail(),array('FNAME'=>$billaddress->getFirstname(),'LNAME'=>$billaddress->getLastname()));
+    }
+    else{
+
+        $mailchimp=Mage::getModel('mailchimpnewsletter/mailchimpnewsletter')->unsubscribeall($billaddress->getEmail());
+    }
+		return $this;
+	}
+
+/*
+	public function orderStatusChanged($observer)
+	{
+		$data = $observer->getEvent()->getData();
+		$order = Mage::getModel('sales/order')->load($data['order']->getId());
+
+		$customer_email = $order->getCustomerEmail();
+		$store_id = $order->getStoreId();
+		$order_status = $order->getStatus();
+
+		$sku = array();
+		$categoryids = array();
+		$product = Mage::getModel('catalog/product');
+
+		foreach($order->getAllItems() as $item)
+		{
+			$product->load($item->getProductId());
+
+			$productCategoriesWithParents = $product->getCategoryIds();
+			foreach ($productCategoriesWithParents as $productCategory)
+				$productCategoriesWithParents = array_merge($productCategoriesWithParents, Mage::getModel('catalog/category')->load($productCategory)->getParentIds());
+			$categoryids[] = array_unique($productCategoriesWithParents);
+			$sku[] = $item->getSku();
+		}
+
+		$allcategories = array();
+		foreach ($categoryids as $categoryid)
+		{
+			foreach ($categoryid as $item)
+			{
+				$flag = false;
+				foreach ($allcategories as $allcategory)
+					if ($allcategory == $item) $flag = true;
+
+				if (!$flag) $allcategories[] = $item;
+			}
+		}
+
+		$to_validate = new Varien_Object();
+		$to_validate->setData('categories', $allcategories);
+		$to_validate->setData('sku', $sku);
+		$to_validate->setData('store', $store_id);
+		$to_validate->setData('order_status', $order_status);
+		$to_validate->setData('customer_email', $customer_email);
+
+		Mage::getModel('advancednewsletter/automanagement')->checkRule($to_validate);
+	}
+	*/
+}

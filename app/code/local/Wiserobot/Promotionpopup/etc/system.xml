@@ -1,0 +1,44 @@
+<config>
+    <tabs>
+        <wiserobot_promo translate="label" module="promotionpopup">
+            <label>wiserobot Promotion</label>
+            <sort_order>3</sort_order>
+        </wiserobot_promo>
+    </tabs>
+    <sections>
+        <promotionpopup translate="label" module="promotionpopup">
+            <label>Promotion popup</label>
+            <tab>wiserobot_promo</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store> 
+            <groups>
+                <settings translate="label">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>  
+                    <fields>
+            			<banners> <!-- Make up a field key -->
+                            <label>Logo in default</label>
+<!--                            <frontend_type>text</frontend_type>-->
+                            <frontend_model>promotionpopup/adminhtml_system_config_banners</frontend_model>
+                            <backend_model>promotionpopup/system_config_backend_banners</backend_model>
+							<!-- <upload_dir config="system/filesystem/media">banner</upload_dir> -->
+                            <upload_dir config="/media">banner</upload_dir>
+                            <base_url type="media">banner</base_url>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </banners>
+					</fields>
+                </settings>
+            </groups>
+        </promotionpopup>
+    </sections> 
+</config>

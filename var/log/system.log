@@ -1,0 +1,16 @@
+2015-01-11T04:25:45+00:00 DEBUG (7): _beforeSave is_array(value)==true
+2015-01-11T04:25:45+00:00 DEBUG (7): value=
+2015-01-11T04:25:45+00:00 DEBUG (7): Array
+(
+    [mage] => Array
+        (
+            [0] => Last Name
+        )
+
+    [list] => Array
+        (
+            [0] => Last Name
+        )
+
+)
+

@@ -1,0 +1,125 @@
+<?php
+
+class Wiserobot_LisTrakNewsletter_Model_Api extends Mage_Core_Model_Abstract
+{
+	public function _construct()
+    {
+        parent::_construct();
+		$this->_init('listraknewsletter/api');
+    }
+    public function subscribeEmail($email, $storeId){
+    	if($storeId){
+    		$store=Mage::getModel('core/store')->load($storeId);
+    	}
+    	else{
+    		$store=Mage::app()->getStore();
+    	}
+    	$username=Mage::getStoreConfig('listraknewsletter/modules/username',$store);
+    	$password=Mage::getStoreConfig('listraknewsletter/modules/password',$store);
+    	$listId=Mage::getStoreConfig('listraknewsletter/modules/list_id',$store);
+    	//echo "Username: $username Password: $password List Id: $listId";
+    	if(!$username || !$password || !$listId){
+    		return;
+    	}
+    	$sh_param = array(
+		    'UserName' => $username, 
+		    'Password' => $password
+		   ); 
+		        
+		$authvalues = new SoapVar($sh_param, SOAP_ENC_OBJECT);
+		        
+		$headers[] = new SoapHeader("http://webservices.listrak.com/v31/", 'WSUser', $sh_param ); 
+		 
+		$soapClient = new SoapClient("https://webservices.listrak.com/v31/IntegrationService.asmx?WSDL", array('trace'=> 1, 'exceptions' => true, 
+		        'cache_wsdl' => WSDL_CACHE_NONE, 'soap_version' => SOAP_1_2));
+		         
+		          
+		$soapClient->__setSoapHeaders($headers); 
+		  
+		  
+		$params = array(
+			'ContactEmailAddress' => $email, 
+			'ListID' => $listId,
+			'OverrideUnsubscribe' => true      
+			);
+		  
+		try {
+		//echo 1;
+		    $rest = $soapClient->SubscribeContact($params);
+          	Mage::log($rest,null, 'lisTrak.log');
+		     //echo 2;
+		    //print_r($rest);
+          	$strrest= $rest->SubscribeContactResult;
+		    if(strpos($strrest,'Failed')===false){
+		    	return array('error'=>false);
+		    }else{
+		    	return array('error'=>true,'message'=>$strrest);
+		    }
+
+		} catch (SoapFault $e) {
+		 
+		 	//throw new Exception($e->getMessage());
+		 	Mage::log($e->getMessage(),null, 'lisTrak.log');
+		    //echo '<pre>';
+		     //print($e->getMessage());
+		     //echo '</pre>';
+
+		}
+    }
+    public function unsubscribeEmail($email){
+    	if($storeId){
+    		$store=Mage::getModel('core/store')->load($storeId);
+    	}
+    	else{
+    		$store=Mage::app()->getStore();
+    	}
+    	$username=Mage::getStoreConfig('listraknewsletter/modules/username',$store);
+    	$password=Mage::getStoreConfig('listraknewsletter/modules/password',$store);
+    	$listId=Mage::getStoreConfig('listraknewsletter/modules/list_id',$store);
+    	if(!$username || !$password || !$listId){
+    		return;
+    	}
+    	$sh_param = array(
+		    'UserName' => $username, 
+		    'Password' => $password
+		   ); 
+		        
+		$authvalues = new SoapVar($sh_param, SOAP_ENC_OBJECT);
+		        
+		$headers[] = new SoapHeader("http://webservices.listrak.com/v31/", 'WSUser', $sh_param ); 
+		 
+		$soapClient = new SoapClient("https://webservices.listrak.com/v31/IntegrationService.asmx?WSDL", array('trace'=> 1, 'exceptions' => true, 
+		        'cache_wsdl' => WSDL_CACHE_NONE, 'soap_version' => SOAP_1_2));
+		         
+		          
+		$soapClient->__setSoapHeaders($headers); 
+		  
+		  
+		$params = array(
+			'ContactEmailAddress' => $email, 
+			'ListID' => $listId
+			);
+		  
+		try {
+		//echo 1;
+		     $rest = $soapClient->UnsubscribeContact($params);
+          Mage::log($rest,null, 'lisTrak.log');
+		     //echo 2;
+		    $strrest= $rest->SubscribeContactResult;
+		    if(strpos($strrest,'Failed' )===0){
+		    	return array('error'=>false);
+		    }else{
+		    	return array('error'=>true,'message'=>$strrest);
+		    }
+
+		} catch (SoapFault $e) {
+		 
+		 	//throw new Exception($e->getMessage());
+		 	Mage::log($e->getMessage(),null, 'lisTrak.log');
+		    //echo '<pre>';
+		     //print($e->getMessage());
+		     //echo '</pre>';
+
+		}
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+        <reference name="before_body_end">
+            <block type="listraknewsletter/Emailsignup" name="listraknewsletter_Emailsignup" as="listraknewsletter_Emailsignup"/>
+        </reference>
+	</default>
+	<listraknewsletter_index_index>
+        <reference name="content">
+            <block type="listraknewsletter/listraknewsletter" name="listraknewsletter_listraknewsletter" template="listraknewsletter/listraknewsletter.phtml"/>
+        </reference>
+    </listraknewsletter_index_index>
+</layout>

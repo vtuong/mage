@@ -1,0 +1,11 @@
+<?php
+	echo "this is module listrackknewsletter";
+
+	if(Mage::getSingleton('customer/session')->isLoggedIn()){
+		$customer=Mage::getSingleton('customer/session')->getCustomer();
+		echo $customer->getFirstname()." ".$customer->getLastname()."<br>";
+		echo $customer->getTaxvat()."<br>";
+		echo $customer->getDob()."<br>";
+	}
+	
+?>

@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Wiserobot
+ * @package    Wiserobot_LisTrakNewsletter
+ * @author     ModuleCreator
+ */
+ -->
+<config>
+    <modules>
+        <Wiserobot_LisTrakNewsletter>
+            <version>0.1.0</version>
+        </Wiserobot_LisTrakNewsletter>
+    </modules>
+    <frontend>
+        <routers>
+            <listraknewsletter>
+                <use>standard</use>
+                <args>
+                    <module>Wiserobot_LisTrakNewsletter</module>
+                    <frontName>listraknewsletter</frontName>
+                </args>
+            </listraknewsletter>
+        </routers>
+        <layout>
+            <updates>
+                <listraknewsletter>
+                    <file>listraknewsletter.xml</file>
+                </listraknewsletter>
+            </updates>
+        </layout>
+        <events>
+            <!-- <controller_action_layout_render_before>
+                <observers>
+                    <wiserobot_listraknewsletter_observer>
+                        <type>model</type>
+                        <class>Wiserobot_LisTrakNewsletter_Model_Observer</class>
+                        <method>emailCapture</method>
+                    </wiserobot_listraknewsletter_observer>
+                </observers>
+            </controller_action_layout_render_before> -->
+        </events>
+    </frontend>
+    <adminhtml>
+		<menu>
+			<listraknewsletter module="listraknewsletter">
+				<title>Subscribers</title>
+				<sort_order>71</sort_order>               
+                <action>listraknewsletter/adminhtml_subscriber</action>
+
+                <!-- vtuong lam test demo  begin-->
+				<children>
+					<unsubscriber module="listraknewsletter">
+						<title>List unsubscribers</title>
+						<sort_order>71</sort_order>
+						<action>listraknewsletter/adminhtml_unsubscriber</action>
+					</unsubscriber>
+				</children>
+                <!-- vtuong end  -->
+            
+			</listraknewsletter>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Wiserobot_LisTrakNewsletter>
+							<title>LisTrakNewsletter Module</title>
+							<sort_order>10</sort_order>
+						</Wiserobot_LisTrakNewsletter>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <listraknewsletter  translate="title" module="listraknewsletter">
+                                            <title>LisTrak Newsletter</title>
+                                            <sort_order>51</sort_order>
+                                        </listraknewsletter>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<listraknewsletter>
+					<file>listraknewsletter.xml</file>
+				</listraknewsletter>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <listraknewsletter>
+                <class>Wiserobot_LisTrakNewsletter_Model</class>
+                <resourceModel>listraknewsletter_mysql4</resourceModel>
+            </listraknewsletter>
+            <listraknewsletter_mysql4>
+                <class>Wiserobot_LisTrakNewsletter_Model_Mysql4</class>
+                <entities>
+                    <subscriber>
+                        <table>wr_ltsubscriber</table>
+                    </subscriber>
+                </entities>
+            </listraknewsletter_mysql4>            
+            <checkout>
+                <rewrite>
+                    <type_onepage>Wiserobot_LisTrakNewsletter_Model_Checkout_Type_Onepage</type_onepage>
+                </rewrite>
+            </checkout>        
+        </models>
+        <resources>
+            <listraknewsletter_setup>
+                <setup>
+                    <module>Wiserobot_LisTrakNewsletter</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </listraknewsletter_setup>
+            <listraknewsletter_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </listraknewsletter_write>
+            <listraknewsletter_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </listraknewsletter_read>
+        </resources>
+        <blocks>
+            <listraknewsletter>
+                <class>Wiserobot_LisTrakNewsletter_Block</class>
+            </listraknewsletter>
+            <checkout>
+                <rewrite>
+                    <onepage_billing>Wiserobot_LisTrakNewsletter_Block_Checkout_Onepage_Bulling</onepage_billing>
+                </rewrite>
+             </checkout>
+        </blocks>
+        <helpers>
+            <listraknewsletter>
+                <class>Wiserobot_LisTrakNewsletter_Helper</class>
+            </listraknewsletter>
+        </helpers>
+        
+        <events>
+            <customer_save_after>
+                <observers>
+                    <wiserobot_listraknewsletter_observer>
+                        <class>listraknewsletter/observer</class>
+                        <method>subscribeCustomer</method>
+                    </wiserobot_listraknewsletter_observer>
+                </observers>
+            </customer_save_after>
+
+            <checkout_submit_all_after>
+                <observers>
+                    <wiserobot_listraknewsletter_saveorder>
+                        <class>listraknewsletter/observer</class>
+                        <method>adminhtmlSaveOrder</method>
+                    </wiserobot_listraknewsletter_saveorder>
+                </observers>
+            </checkout_submit_all_after>
+        </events>
+    </global>
+
+    <default>
+        <listraknewsletter>
+            <general>
+                <enabled>1</enabled>
+                <enabled_signup_checkout>1</enabled_signup_checkout>
+            </general>
+            <email_signup_popup>
+                <email_signup_popup_enabled>1</email_signup_popup_enabled>                
+                <script_location>domain/listrakscript.js</script_location>
+                <input_id_capture_email>email,newsletter</input_id_capture_email>
+            </email_signup_popup>
+        </listraknewsletter>
+    </default>
+
+</config>

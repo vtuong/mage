@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">				
+			<action method="addItem"><type>skin_css</type><name>css/fancybox/jquery.fancybox.css</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/fancybox/jquery-1.10.1.min.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.mousewheel-3.0.6.pack.js</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.fancybox.js</name></action>
+		</reference>
+        <reference name="content">
+	        <block type="core/template" name="promotionpopup_promotionpopup" as="promotionpopup_promotionpopup" template="promotionpopup/promotionpopup.phtml" />
+	    </reference>
+	</default>
+</layout>

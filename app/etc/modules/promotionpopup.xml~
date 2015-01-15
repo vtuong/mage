@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wiserobot_LisTrakNewsletter>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Wiserobot_LisTrakNewsletter>
+    </modules>
+</config> 

@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Wiserobot
+ * @package    Wiserobot_Promotionpopup
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Wiserobot_Promotionpopup>
+            <version>0.1.0</version>
+        </Wiserobot_Promotionpopup>
+    </modules>
+    <frontend>
+        <routers>
+            <promotionpopup>
+                <use>standard</use>
+                <args>
+                    <module>Wiserobot_Promotionpopup</module>
+                    <frontName>promotionpopup</frontName>
+                </args>
+            </promotionpopup>
+        </routers>
+        <layout>
+            <updates>
+                <promotionpopup>
+                    <file>promotionpopup.xml</file>
+                </promotionpopup>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<promotionpopup>
+				<use>admin</use>
+				<args>
+					<module>Wiserobot_Promotionpopup</module>
+					<frontName>promotionpopup</frontName>
+				</args>
+			</promotionpopup>
+        </routers>
+    </admin>
+    <adminhtml>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Wiserobot_Promotionpopup>
+							<title>Promotionpopup Module</title>
+							<sort_order>10</sort_order>
+						</Wiserobot_Promotionpopup>
+
+            <system>
+                <children>
+                    <config>
+                        <children>
+                            <promotionpopup  translate="title" module="promotionpopup">
+                                <title>Promotions Popup</title>
+                                <sort_order>51</sort_order>
+                            </promotionpopup >
+                        </children>
+                    </config>
+                </children>
+            </system>
+
+
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<promotionpopup>
+					<file>promotionpopup.xml</file>
+				</promotionpopup>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <promotionpopup>
+                <class>Wiserobot_Promotionpopup_Model</class>
+                <resourceModel>promotionpopup_mysql4</resourceModel>
+            </promotionpopup>
+            <promotionpopup_mysql4>
+                <class>Wiserobot_Promotionpopup_Model_Mysql4</class>
+                <entities>
+                    <promotionpopup>
+                        <table>promotionpopup</table>
+                    </promotionpopup>
+                </entities>
+            </promotionpopup_mysql4>
+        </models>
+        <resources>
+            <promotionpopup_setup>
+                <setup>
+                    <module>Wiserobot_Promotionpopup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </promotionpopup_setup>
+            <promotionpopup_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </promotionpopup_write>
+            <promotionpopup_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </promotionpopup_read>
+        </resources>
+        <blocks>
+            <promotionpopup>
+                <class>Wiserobot_Promotionpopup_Block</class>
+            </promotionpopup>
+        </blocks>
+        <helpers>
+            <promotionpopup>
+                <class>Wiserobot_Promotionpopup_Helper</class>
+            </promotionpopup>
+        </helpers>
+        <events>
+          <sales_quote_item_qty_set_after>
+            <observers>
+              <wiserobot_productoptionstatus>
+                <type>singleton</type>
+                <class>productoptionstatus/observer</class>
+                <method>checkQty</method>
+              </wiserobot_productoptionstatus>
+            </observers>
+          </sales_quote_item_qty_set_after>  
+        </events>
+    </global>
+</config>

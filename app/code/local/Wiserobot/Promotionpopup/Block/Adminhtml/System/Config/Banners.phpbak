@@ -1,0 +1,174 @@
+<?php
+/*
+NextWidgets **NOTICE OF LICENSE**
+This source file is subject to the EULA that is bundled with this package in the file LICENSE.pdf. It is also available through the world-wide-web at this URL:
+http://nextwidgets.com/magento_extension_license.pdf
+=================================================================
+MAGENTO COMMUNITY EDITION USAGE NOTICE
+=================================================================
+This package is designed for the Magento COMMUNITY edition
+This extension may not work on any other Magento edition except Magento COMMUNITY edition. NextWidgets does not provide extension support in case of incorrect edition usage.
+=================================================================
+Copyright (c) 2011 NextWidgets – ALENSA AG (http://www.nextwidgets.com)
+License http://nextwidgets.com/magento_extension_license.pdf
+*/
+
+class Wiserobot_Promotionpopup_Block_Adminhtml_System_Config_Banners extends Mage_Adminhtml_Block_System_Config_Form_Field {
+
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
+
+        $originalData = $element->getOriginalData();
+        $this->addData(array(
+            //'frame_url'   => $originalData['frame_url']
+        ));
+        echo "vtuong print test begin </br>";
+        echo "<pre>";
+            $value=$element->getValue();
+            // $value=substr($value, 2);
+            // $value=substr($value, 0, -2);
+            // $value = explode('","', $value);
+            // print_r($element);
+        echo "</pre>";
+        echo "vtuong print test end </br>";
+
+        $html='';
+        $html.="<div style=\"width:712px\"><button class=\"scalable add\" id=\"add_utm_medium\" type=\"button\" ><span>Add utm medium</span></button></div>";
+        $html.="<div id=\"banner_form\" class=\"custom-options grid\">";
+        if(count($value)>1){
+        	$html.='<div class="option-box">';
+        	$html.='<table style="width:100%" class="option-header"><thead><tr class="headings"><th class="opt-title">utm medium</th><th class="a-right">action</th></tr></thead>';
+        	$html.='<tbody><tr><td><input type="text" class="utm_medium" name="utm_medium" style="width:100px" value="'.$value[0].'"/></td><td class="a-right"><button class="delete" type="button"><span>Del</span></button></td></tr></tbody>';
+        	$html.='</table>';
+        	$html.='<table style="width:100%" class="border"><thead><tr class="headings"><th>utm term</th><th>utm source</th><th>banner</th><th>status</th><th>action</th></tr></thead>';
+        	$html.='<tbody>';
+        	$html.='<tr><td><input class="utm_term" name="utm_term" style="width:70px" value="'.$value[1].'"></td><td><input class="utm_source" name="utm_source" style="width:70px" value="'.$value[2].'"></td><td><img src="'.Mage::getStoreConfig('web/unsecure/base_url').'media/banner/'.$value[3].'" style="height: 22px; width: 22px; float: left;" /><input type="file" class="file_upload" name="banner[1]"></td>';
+        	if($value[4]==1)
+        		$html.='<td><select style="width:70px"><option value="1" SELECTED>enable</option><option value="0">disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        	else
+        		$html.='<td><select style="width:70px"><option value="1">enable</option><option value="0" SELECTED>disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        	if(count($value)>5){
+        		for($i=5;$i<count($value);$i=$i+5){
+        			if($value[$i]==$value[$i-5]){
+        				$html.='<tr><td><input class="utm_term" name="utm_term" style="width:70px" value="'.$value[$i+1].'"></td><td><input class="utm_source" name="utm_source" style="width:70px" value="'.$value[$i+2].'"></td><td><img src="'.Mage::getStoreConfig('web/unsecure/base_url').'media/banner/'.$value[$i+3].'" style="height: 22px; width: 22px; float: left;" /><input type="file" class="file_upload" name="banner['.($i/5 +1).']"></td>';
+        				if($value[$i+4]==1)
+        					$html.='<td><select style="width:70px"><option value="1" SELECTED>enable</option><option value="0">disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        				else
+        					$html.='<td><select style="width:70px"><option value="1">enable</option><option value="0" SELECTED>disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        			}
+        			else {
+        				$html.='</tbody>';
+        				$html.='<tfoot><tr><td class="a-right" colspan="5"><button class="add" type="button"><span>Add banner</span></button></td></tr></tfoot></table></div>';
+        				$html.='<div class="option-box">';
+        				$html.='<table style="width:100%" class="option-header">';
+        				$html.='<thead><tr class="headings"><th class="opt-title">utm medium</th><th class="a-right">action</th></tr></thead>';
+        				$html.='<tbody><tr><td><input type="text" class="utm_medium" name="utm_medium" style="width:100px" value="'.$value[$i].'"></td><td class="a-right"><button class="delete" type="button"><span>Del</span></button></td></tr></tbody>';
+        				$html.='</table>';
+        				$html.='<table style="width:100%" class="border" ><thead><tr class="headings"><th>utm term</th><th>utm source</th><th>banner</th><th>status</th><th>action</th></tr></thead>';
+        				$html.='<tbody>';
+        				$html.='<tr><td><input name="utm_term" class="utm_term" style="width:70px" value="'.$value[$i+1].'"></td><td><input class="utm_source" name="utm_source" style="width:70px" value="'.$value[$i+2].'"></td><td><img src="'.Mage::getStoreConfig('web/unsecure/base_url').'media/banner/'.$value[$i+3].'" style="height: 22px; width: 22px; float: left;" /><input type="file" class="file_upload" name="banner['.($i/5 +1).']"></td>';
+        				if($value[$i+4]==1)
+        					$html.='<td><select style="width:70px"><option value="1" SELECTED>enable</option><option value="0">disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        				else
+        					$html.='<td><select style="width:70px"><option value="1">enable</option><option value="0" SELECTED>disable</option></select></td><td><button type="button" class="delete"><span>Del</span></button></td></tr>';
+        			}
+        		}
+        	}
+        	$html.='</tbody>';
+        	$html.='<tfoot><tr><td class="a-right" colspan="5"><button class="add" type="button"><span>Add banner</span></button></td></tr></tfoot></table></div>';
+        }
+
+        $html.="</div>";
+        //$html.='<button class="scalable add" id="add_banner" type="button" ><span>Add Banners</span></button>';
+        $html.='<script type="text/javascript" src="/js/wiserobot/bannerform.js"></script>';
+        $html.='<script type="text/javascript">
+        var bannerForm = new bannerForm("banner_form");
+        </script>'."<input id='hidden_key' type='hidden' name='".$element->getName()."' />";
+        return $html;
+    }
+
+/*
+    public function render(Varien_Data_Form_Element_Abstract $element){    
+        
+        $id = $element->getHtmlId();
+
+        $useContainerId = $element->getData('use_container_id');
+        $html = '<tr id="row_' . $id . '">'
+              . '<td class="label"><label for="'.$id.'">'.$element->getLabel().'</label></td>';
+
+        //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
+        $isMultiple = $element->getExtType()==='multiple';
+
+        // replace [value] with [inherit]
+        $namePrefix = preg_replace('#\[value\](\[\])?$#', '', $element->getName());
+
+        $options = $element->getValues();
+
+        $addInheritCheckbox = false;
+        if ($element->getCanUseWebsiteValue()) {
+            $addInheritCheckbox = true;
+            $checkboxLabel = Mage::helper('adminhtml')->__('Use Website');
+        }
+        elseif ($element->getCanUseDefaultValue()) {
+            $addInheritCheckbox = true;
+            $checkboxLabel = Mage::helper('adminhtml')->__('Use Default');
+        }
+
+        if ($addInheritCheckbox) {
+            $inherit = $element->getInherit()==1 ? 'checked="checked"' : '';
+            if ($inherit) {
+                $element->setDisabled(true);
+            }
+        }
+
+        $html.= '<td class="value">';
+        $html.= $this->_getElementHtml($element);
+        if ($element->getComment()) {
+            $html.= '<p class="note"><span>'.$element->getComment().'</span></p>';
+        }
+        $html.= '</td>';
+
+        if ($addInheritCheckbox) {
+
+            $defText = $element->getDefaultValue();
+            if ($options) {
+                $defTextArr = array();
+                foreach ($options as $k=>$v) {
+                    if ($isMultiple) {
+                        if (is_array($v['value']) && in_array($k, $v['value'])) {
+                            $defTextArr[] = $v['label'];
+                        }
+                    } elseif ($v['value']==$defText) {
+                        $defTextArr[] = $v['label'];
+                        break;
+                    }
+                }
+                $defText = join(', ', $defTextArr);
+            }
+
+            // default value
+            $html.= '<td class="use-default">';
+            //$html.= '<input id="'.$id.'_inherit" name="'.$namePrefix.'[inherit]" type="checkbox" value="1" class="input-checkbox config-inherit" '.$inherit.' onclick="$(\''.$id.'\').disabled = this.checked">';
+            $html.= '<input id="'.$id.'_inherit" name="'.$namePrefix.'[inherit]" type="checkbox" value="1" class="checkbox config-inherit" '.$inherit.' onclick="toggleValueElements(this, Element.previous(this.parentNode))" /> ';
+            $html.= '<label for="'.$id.'_inherit" class="inherit" title="'.htmlspecialchars($defText).'">'.$checkboxLabel.'</label>';
+            $html.= '</td>';
+        }
+
+        $html.= '<td class="scope-label">';
+        if ($element->getScope()) {
+            $html .= $element->getScopeLabel();
+        }
+        $html.= '</td>';
+
+        $html.= '<td class="">';
+        if ($element->getHint()) {
+            $html.= '<div class="hint" >';
+            $html.= '<div style="display: none;">' . $element->getHint() . '</div>';
+            $html.= '</div>';
+        }
+        $html.= '</td>';
+
+        $html.= '</tr>';
+        return $html;
+    }
+*/
+}

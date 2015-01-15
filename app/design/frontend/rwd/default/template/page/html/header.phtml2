@@ -1,0 +1,489 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php 
+//edit by vtuong
+// echo $this->getChildHtml('promotionpopup');
+?>
+
+<?php //endif;?>
+<!--Popup Qty greater -->
+<a href='#popup-QG' id='a-popup-QG' style="display:none"></a>
+<div style="display:none">
+  <div id="popup-QG">      
+      <span class="text-popup-QG"></span>
+      <br />
+      <div class='QG-btn'>
+          <a class="no-thanks-QG" onclick="jQuery.fancybox.close()"></a>
+          <button class="form-button-alt">
+                <span>Add to cart</span>
+          </button>
+      </div>
+  </div>
+</div>
+<!----> 
+<script type="text/javascript">
+jQuery("#a-popup-QG").fancybox({
+            'titlePosition'         : 'inside',
+            'transitionIn'          : 'fade',
+            'transitionOut'         : 'fade',
+            'overlayColor'          : '#333',
+            'onClosed'  : function() {
+            }
+});
+</script>
+<!--Popup Qty greater -->
+<a href='#popup-QG_green' id='a-popup-QG_green' style="display:none"></a>
+<div style="display:none">
+  <div id="popup-QG_green">
+      <div class="greenPasture"></div><br>
+      <span class="text-popup-QG"></span>
+      <br />
+      <div class='QG-btn'>
+          <a class="no-thanks-QG" onclick="jQuery.fancybox.close()"></a>
+          <button class="form-button-alt">
+                <span>Add to cart</span>
+          </button>
+      </div>
+      <div class="continue_shopping"> 
+        <button class="form-button-alt" onclick="jQuery.fancybox.close()">
+                <span>Continue Shopping</span>
+          </button>
+      </div>
+  </div>
+</div>
+<!----> 
+<script type="text/javascript">
+jQuery("#a-popup-QG_green").fancybox({
+            'onStart': function() {              
+              jQuery("#fancybox-outer").css({'border-radius':'10px','border': '7px solid #615A4B'}); 
+            },
+            'titlePosition'         : 'inside',
+            'transitionIn'          : 'fade',
+            'transitionOut'         : 'fade',
+            'overlayColor'          : '#333',
+            'border-width': 0,
+            'padding': 0,
+            'showCloseButton': false,                      
+            'onClosed'  : function() {
+            }
+});
+</script> 
+
+<div id="topRow">
+
+
+
+<p><a id="logo" class="fir" href="<?php echo $this->getUrl();?>">&nbsp</a></p>
+<div class="topMenu">
+<div class="menu_topright">
+
+  <div class="toll_free">
+    <a href="<?php echo $this->getBaseUrl().'contacts'?>"><!-- <img src="<?php echo $this->getSkinUrl();?>images/tollFree.png" border="0" alt="Toll Free 1-800-481-5074"> --></a>
+  <!--<p>Toll Free <span>1-800-481-5074</span></p>-->
+  </div>
+  <div class="right_bar">
+    <?php echo $this->getChildHtml("top_navigation3") ?>
+    <div class="menu_right ">
+      <div class="cart_sidebar" id="topsidebar"><?php echo $this->getChildHtml("topcart"); ?> </div>
+      <div class="login_sidebar"><?php echo $this->getChildHtml("mini_login"); ?> </div>
+    </div>
+    
+  </div>
+</div>
+<div class="menu-bottom-right">
+  <div class="freeshipping">
+    <?php echo $this->getChildHtml("headerfreeshipping") ?>
+  </div>
+  <div class="top-menu">
+    <a href="/news/" class="view-blog"></a>
+    <div class="top_search qsearch">
+      <?php echo $this->getChildHtml("topSearch") ?>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--<div class="mobile_view" style="float: right; color: rgb(255, 255, 255); margin-top: 19px; margin-right: 4px;">
+<?php //echo $this->getChildHtml("mobile-view") ?>
+</div>-->
+
+</div>
+<div class="topMenu_Mobile">
+  <div class="headertopm">
+    <ul>
+      <li class="callusTopm"><a href="tel:+8004815074"><img src="<?php echo $this->getSkinUrl();?>images/mobiles/callusLSF.png" border="0" alt=""><span>Call Us</span></a></li>
+      
+      <li class="chatnowTopm">
+        <a onclick="runChat();">
+          
+          <div class="iconChatM"><span style="padding-left:30px">Chat Now</span></div>     
+          
+        </a>
+      </li>
+    
+      <li class="checkoutTopm">
+        <div class="checkoutMobile"><a href="#"><img src="<?php echo $this->getSkinUrl();?>images/mobiles/checkoutLSF.png" border="0" alt=""> <span>Checkout</span></a></div>
+        <div class="cart_sidebar" id="topsidebarM"><?php echo $this->getChildHtml("topcart"); ?> </div>
+      </li>
+      <li class="searchTopm">
+        <div class="top_search qsearch" id="top_search_mobile">
+          <?php echo $this->getChildHtml("topSearch") ?>
+        </div>
+        <div class="SearchTopHG">
+        <img src="<?php echo $this->getSkinUrl();?>images/mobiles/searchLSF.png" border="0" alt=""> 
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="menu_left_mobile">
+    <a class="logoHG" href="<?php echo $this->getUrl();?>"></a>
+
+  </div>
+  <div class="menu_right_mobile">
+      <div class="accountm">
+        <?php $session = Mage::getSingleton("customer/session"); ?>
+        <?php if ($session->isLoggedIn()): ?>
+          <a href="<?php echo $this->getUrl('customer/account/logout') ?>">Logout</a> |
+        <?php else: ?>
+          <a class="login" href=<?php echo Mage::getBaseUrl()."customer/account/"?>>Login </a> |
+        <?php endif; ?>
+        <a class="my_acc" href=<?php echo Mage::getBaseUrl()."customer/account/"?>>My Account</a> 
+      </div>
+      <div class="ContinueM" style="display:none">
+        <div class="java_icon">
+          <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" 
+              SRC="//smarticon.geotrust.com/si.js"></SCRIPT>
+          </div>
+        <button class="continueShopping" onclick="setLocation('<?php echo Mage::getBaseUrl()?>')">Continue Shopping ></button>        
+      </div>
+  </div>
+    
+</div>
+
+
+
+
+
+
+				 <div class="top_search qsearch" id="top_search_mobile">
+      <?php echo $this->getChildHtml("topSearch") ?>
+    </div>
+
+				<?php //echo $this->getChildHtml("breadcrumbs") ?>
+				<?php //echo $this->getChildHtml("main_navigation") ?>
+				<?php //echo $this->getChildHtml("topMenu") ?>
+        <?php echo Mage::getStoreConfig('menuleft'); 
+        //Mage::log(Mage::getStoreConfig('menuleft'),null,'enu1.log');
+        ?>
+
+			</div>
+<?php 
+//Mage::log($_SERVER['HTTP_USER_AGENT'],null,'mobile.log');
+function is_old_android($version = '4.0.0'){ 
+  if(strstr($_SERVER['HTTP_USER_AGENT'], 'Android')){
+    preg_match('/Android (\d+(?:\.\d+)+)[;)]/', $_SERVER['HTTP_USER_AGENT'], $matches);
+    return version_compare($matches[1], $version, '<=');
+  }
+}
+?>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    is_old_android=old_android();
+    function old_android(){
+    if(navigator.userAgent.match(/Android 2/i)){
+return true;
+    }
+    return false;
+}
+
+  jQuery('.featuredProductsContainer').show();
+    jQuery('.section-container.horizontal-nav').click(function(){
+        if(jQuery(this).hasClass('inline')){
+          if(!jQuery(this).find('.arrow_mobile').hasClass('active')){
+            jQuery('.arrow_mobile.active').parent().parent().find('.content').slideToggle("slow");
+            <?php //if(is_old_android('2.3.5')): ?>
+            if(is_old_android && jQuery(this).find('.content').attr('class') == 'content brand'){
+              var height_content_menu = jQuery(this).find('.content').height();
+              jQuery(this).find('.content').css('height',height_content_menu);          
+              jQuery('.middle').height(height_content_menu);
+            }
+            <?php //endif; ?>
+            if(jQuery('.section-container.horizontal-nav h3 .active').length!=0)
+              setTimeout(function() {
+                  jQuery('.arrow_mobile.active').parent().parent().find('.content').slideToggle("slow");
+              }, 800);
+            else
+              jQuery(this).find('.content').slideToggle("slow");
+            jQuery('.arrow_mobile.active').removeClass('active');
+          }
+          else{
+            jQuery(this).find('.content').slideToggle("slow",function(){jQuery('.lCol.lmenu').css('z-index','0');});
+            <?php //if(is_old_android('2.3.5')): ?>
+            if(is_old_android && jQuery(this).find('.content').attr('class') == 'content brand'){
+              jQuery('.middle').css('height', '');
+            }
+            <?php //endif;?>
+          }
+        }
+        else       
+          jQuery(this).find('.content').slideToggle("slow");
+        if(jQuery(this).find('.arrow_mobile').hasClass('active'))
+          jQuery(this).find('.arrow_mobile').removeClass('active');
+        else
+          jQuery(this).find('.arrow_mobile').addClass('active');
+    });
+});
+</script>
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    /*jQuery('.SearchTopHG').click(function(){
+      jQuery('#top_search_mobile').animate({"top": 0}, 'slow');    
+    });
+    jQuery('.CloseHG').click(function(){
+      jQuery('#top_search_mobile').animate({"top": "-45px"}, 'slow');
+    });*/
+    jQuery('.SearchTopHG').click(function(){
+      jQuery('#topRow .topMenu').animate({"top": 0}, 'slow');    
+    });
+    jQuery('.CloseHG').click(function(){
+      jQuery('#topRow .topMenu').animate({"top": "-45px"}, 'slow');
+    });
+    
+    jQuery('.checkoutMobile').click(function(){
+      jQuery('#topsidebarM').animate({"top": 0}, 'slow');
+      jQuery(".cart_sidebar .content").slideToggle("slow");    
+    });
+    /*
+    jQuery('#topsidebarM .CloseCheckoutHG').click(function(){
+      if(inDelay){
+        jQuery(".cart_sidebar .content").dequeue();
+        jQuery('#topsidebarM').animate({"top": "-45px"}, 'slow');
+        return false;
+      }
+      else{
+        jQuery('#topsidebarM').animate({"top": "-45px"}, 'slow');
+        jQuery(".cart_sidebar .content").css('display','none');
+        return false;
+      }
+      return false;
+    });*/
+        jQuery('#topsidebarM .CloseCheckoutHG').bind('click',function(){
+      if(inDelay){
+        jQuery(".cart_sidebar .content").dequeue();
+        jQuery('#topsidebarM').animate({"top": "-45px"}, 'slow');
+        return false;
+      }
+      else{
+        jQuery('#topsidebarM').animate({"top": "-45px"}, 'slow');
+        jQuery(".cart_sidebar .content").css('display','none');
+        return false;
+      }
+      return false;
+    });
+      jQuery('#footer-images a img').first().css("height","56");
+
+  });
+</script>
+<script type="text/javascript">
+inDelay = false;
+ jQuery(document).ready(function(){
+    jQuery("#mainMenu .mItem").hover(function(){
+      //jQuery(this).addClass('itemHover');
+      jQuery(this).find('.arrow-menu').css("display","block");}, function(){
+        //jQuery(this).removeClass('itemHover');
+        jQuery(this).find('.arrow-menu').css("display","none");     
+    });
+    jQuery("#icon").show();
+});
+
+function productAddToCart(url,btn)
+{
+
+      jQuery.fancybox.showActivity();
+
+      jQuery.ajax({
+         type: "POST",
+         url: url,
+         success: function(msg){          
+        jQuery.fancybox.hideActivity();
+          if(jQuery(window).width() < 645){
+              jQuery('html,body').animate({
+                        scrollTop:0
+                }, 1000);
+                jQuery(".cart_sidebar").load("/ajaxcart",function(){
+                    //jQuery(".cart_sidebar .content").css({'display': 'block'});
+                    jQuery('#topsidebarM').animate({"top": 0}, 'slow');
+                    jQuery(".cart_sidebar .content").slideToggle("slow").delay(5000);
+                      inDelay = true;
+                      setTimeout(function(){
+                          inDelay = false;
+                      },5000)                    
+                });
+                //jQuery(".ajax-messages").load("/ajaxcart/index/message",function(){});
+             }
+            else{
+             jQuery('html,body').animate({
+                                scrollTop:0
+                        }, 1000);
+              jQuery(".cart_sidebar").load("/ajaxcart",function(){
+                jQuery(".cart_sidebar .content").slideToggle("slow").delay(5000);
+              });
+              //jQuery(".ajax-messages").load("/ajaxcart/index/message",function(){});
+            }
+         }
+       });
+};
+   
+</script>
+
+
+<!--quick look jquery - ajax -->
+<script type="text/javascript">
+      jQuery(document).ready(function(){
+              jQuery(".imageContainer").live({
+              mouseenter: function(){
+                      jQuery(this).find('.images-quicklock').show();
+              }, 
+              mouseleave: function(){
+                      jQuery(this).find('.images-quicklock').hide();  
+              }
+          });
+              /*
+          jQuery('.imageContainer').hover(function(){
+                jQuery(this).find('.images-quicklock').show();
+          }, function(){jQuery(this).find('.images-quicklock').hide()});
+          jQuery('.images-quicklock-popup').fancybox({
+                maxWidth    : 800,
+                maxHeight   : 600,
+                fitToView   : false,
+                width       : '70%',
+                height      : '70%',
+                autoSize    : false,
+                closeClick  : false,
+                openEffect  : 'none',
+                closeEffect : 'none'
+            });*/
+          jQuery('.images-quicklock-popup').live('click', function() {
+              jQuery.fancybox(this,{
+                maxWidth    : 800,
+                maxHeight   : 600,
+                fitToView   : false,
+                width       : '70%',
+                height      : '70%',
+                autoSize    : false,
+                closeClick  : false,
+                openEffect  : 'none',
+                closeEffect : 'none'
+              })
+          return false;
+          })
+         
+      })
+</script>
+<script type="text/javascript">
+ jQuery(document).ready(function(){
+    jQuery("#mainMenu .mItem.brand").hover(function(){
+      //jQuery(this).addClass('itemHover');
+      jQuery(this).find('.arrow-menu').css("display","block");}, function(){
+        //jQuery(this).removeClass('itemHover');
+        jQuery(this).find('.arrow-menu').css("display","none");
+        
+    });
+     
+});
+</script>
+   <script type="text/javascript">
+      jQuery(document).ready(function(){
+         jQuery("#mainMenu .mItem.brand").hover(function(){
+        jQuery(this).find('span').addClass('line-hover');
+        /*jQuery('#mainMenu .mItem.brand a.mLevel0').css({'padding-top':'0', 'padding-bottom':'13px'});*/
+      }, function(){
+        
+           jQuery(this).find('span').removeClass('line-hover');
+             /*jQuery('#mainMenu .mItem.brand a.mLevel0').css({'padding-top':'7px', 'padding-bottom':'7px'});*/
+        
+          }); 
+         jQuery("#mainMenu .mItem").hover(function(){
+        jQuery(this).find('span').addClass('line-hover');
+        /*jQuery(this).find(' a.mLevel0').css({'padding-top':'0px', 'padding-bottom':'14px'});*/
+      }, function(){
+        
+           jQuery(this).find('span').removeClass('line-hover');
+          /*jQuery(this).find(' a.mLevel0').css({'padding-top':'7px', 'padding-bottom':'7px'});*/
+        
+          }); 
+         resizewholeform();
+      });
+      function resizewholeform(){
+        var w_full = jQuery(window).width() -10 ;
+        if(jQuery(window).width() <= 776 ){
+          var numberhead = w_full+'px 51px';
+          jQuery('.wholesale_content .head').css({'width': w_full , 'background-size': numberhead});
+          jQuery('.wholesale_content .yBlock').css({'width': w_full , 'background-size': w_full});
+           jQuery('.wholesale_content .bottom').css({'width': w_full , 'background-size': w_full+'px 32px'});
+        }else{
+          jQuery('.wholesale_content .head').css({'width': '736px' , 'background-size': '780px 51px'});
+          jQuery('.wholesale_content .yBlock').css({'width': '736px' , 'background-size': '100%'});
+           jQuery('.wholesale_content .bottom').css({'width': '776px' , 'background-size': '780px 32px'});
+        }
+        /*if(jQuery(window).width() <= 940){
+          var contentrollover = ((jQuery(window).width() - 40 )/9) - 15 ;
+          var himages = (jQuery('.img-rollover img').height()/2) - 2 ;
+          jQuery('.cms-about-us .img-rollover').css({'width':contentrollover, 'height': himages});
+          //jQuery('.img-rollover img:hover').css('top', '-'+himages+'px');
+          jQuery('.img-rollover img').hover( function(){
+              jQuery(this).css('top', '-'+himages+'px');
+             jQuery('.cms-about-us .about-page-content').css('margin-bottom', jQuery(this).parent().next().height());
+          },
+          function(){
+              jQuery(this).css('top', 0);
+              jQuery('.cms-about-us .about-page-content').css('margin-bottom', 108);
+          });*/
+         /* var maxHeightText = [];
+          jQuery('.cms-about-us .text-rollover').each(function(){
+              maxHeightText.push(jQuery(this).height());
+          });
+          var a = Math.max(maxHeightText);
+          alert(a);
+          jQuery('.cms-about-us .about-page-content').css('margin-bottom', a);*/
+        /*}else{
+          jQuery('.cms-about-us .img-rollover').css({'width': '85px', 'height': '120px'});
+        }*/
+        if(jQuery(window).width() <= 540){
+          var contentrollover = ((jQuery(window).width() - 40 )/5) - 16 ;
+          var himages = (jQuery('.img-rollover img').height()/2) - 3 ;
+          jQuery('.cms-about-us .img-rollover').css({'width':contentrollover, 'height': himages});
+          jQuery('.img-rollover img:hover').css('top', '-'+himages+'px');
+        }
+      }
+      jQuery(window).resize(function(){
+        resizewholeform();
+      });
+   </script>
+   <ul id="ui-autocomplete" class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 3000 !important; top: 0px; left: 0px; display: none; width: 253px;"></ul>
